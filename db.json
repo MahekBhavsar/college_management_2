@@ -1,0 +1,62 @@
+{
+  "teachers": [
+    {
+      "id": "1",
+      "name": "Anita Sharma",
+      "phone": "9874563210",
+      "email": "anita.sharma@gmail.com",
+      "address": "vapi",
+      "gender": "female"
+    },
+    {
+      "id": "2",
+      "name": "Harshil  Sureja",
+      "phone": "01234567890",
+      "email": "harshil@gmail.com",
+      "address": "diya apt",
+      "gender": "male"
+    },
+    {
+      "id": "3",
+      "name": "MAHEK SANDEEP BHAVASR",
+      "phone": "12365476",
+      "email": "mahek.bhavsar29@gmail.com",
+      "address": "valsad",
+      "gender": "female"
+    }
+  ],
+  "students": [
+    {
+      "id": "101",
+      "name": "Harshil",
+      "phone": "01234567890",
+      "email": "harshil@gmail.com",
+      "address": " valsad",
+      "gender": "male"
+    },
+    {
+      "id": "102",
+      "name": "MAHEK BHAVASR",
+      "phone": "12365476",
+      "email": "mahek.bhavsar29@gmail.com",
+      "address": "valsad",
+      "gender": "female"
+    },
+    {
+      "id": "103",
+      "name": "Hemal Sureja",
+      "phone": "09087654321",
+      "email": "hemal@gmail.com",
+      "address": "valsad",
+      "gender": "male"
+    },
+    {
+      "id": "104",
+      "name": "SANDEEP THAKORLAL BHAVSAR",
+      "phone": "09081947464",
+      "email": "sandeep@gmail.com",
+      "address": "valsad",
+      "gender": "male"
+    }
+  ]
+}

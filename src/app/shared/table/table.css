@@ -1,0 +1,104 @@
+/* Table base */
+.table {
+  border-radius: 14px;
+  overflow: hidden;
+  animation: fadeInTable 0.6s ease-in-out;
+  box-shadow: 0 10px 25px rgba(13,110,253,0.15);
+}
+
+/* Table header */
+.table thead th {
+  background: linear-gradient(45deg, #0d6efd, #004085);
+  color: #ffffff;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 14px;
+  border: none;
+}
+
+/* Table body cells */
+.table tbody td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px;
+  font-size: 0.95rem;
+  color: #212529;
+}
+
+/* Zebra rows */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f7ff;
+}
+
+/* Row hover */
+.table tbody tr {
+  transition: all 0.25s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #e0edff;
+  transform: scale(1.01);
+}
+
+/* Action buttons base */
+.table .btn {
+  border-radius: 25px;
+  padding: 5px 16px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+/* Edit button (blue) */
+.btn-warning {
+  background: linear-gradient(45deg, #0d6efd, #0a58ca);
+  border: none;
+  color: #fff;
+}
+
+.btn-warning:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(13,110,253,0.45);
+}
+
+/* Delete button (red contrast) */
+.btn-danger {
+  background: linear-gradient(45deg, #dc3545, #a71d2a);
+  border: none;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(220,53,69,0.45);
+}
+
+/* Empty state */
+.table tbody tr td[colspan] {
+  font-weight: 600;
+  color: #6c757d;
+  padding: 22px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .table .btn {
+    margin-bottom: 6px;
+  }
+}
+
+/* Animation */
+@keyframes fadeInTable {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

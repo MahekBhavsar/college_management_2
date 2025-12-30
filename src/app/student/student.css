@@ -1,0 +1,103 @@
+/* Page container */
+.container {
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+/* Add Student Button */
+button.btn-primary {
+  border-radius: 30px;
+  padding: 10px 25px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(45deg, #0d6efd, #004085);
+  border: none;
+  transition: all 0.3s ease;
+  margin-bottom: 25px;
+}
+
+button.btn-primary:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 20px rgba(13,110,253,0.4);
+}
+
+/* Modal fade animation */
+.modal.fade .modal-dialog {
+  transform: scale(0.9);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.modal.show .modal-dialog {
+  transform: scale(1);
+}
+
+/* Modal Content */
+.common-modal-class .modal-content {
+  border-radius: 18px;
+  border: none;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+/* Modal Header */
+.common-modal-class .modal-header {
+  background: linear-gradient(45deg, #0d6efd, #004085);
+  color: #fff;
+  padding: 15px 20px;
+}
+
+.common-modal-class .modal-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* Close button */
+.common-modal-class .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+/* Modal Body */
+.common-modal-class .modal-body {
+  padding: 25px;
+  background-color: #f8f9fa;
+}
+
+/* Table spacing (app-table wrapper) */
+app-table {
+  display: block;
+  margin-top: 20px;
+  animation: slideUp 0.6s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+
+  button.btn-primary {
+    width: 100%;
+  }
+}
