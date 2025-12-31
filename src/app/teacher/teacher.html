@@ -1,44 +1,76 @@
-<div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-3">
-    <div>
-      <h2 class="fw-bold text-dark mb-0">Teacher Data</h2>
-      <p class="text-muted small mb-0">Manage and update faculty information</p>
-    </div>
-    
-    <button class="btn btn-primary shadow-sm d-flex align-items-center gap-2 px-4 py-2" 
-            style="background-color: #4e73df; border: none;"
-            data-bs-toggle="modal" 
-            data-bs-target="#teacherModal" 
-            (click)="editTeacher.set(null)">
-      <i class="bi bi-plus-lg"></i> 
-      <span class="fw-semibold">Add New Teacher</span>
-    </button>
-  </div>
-
-  <app-table 
-    [data]="teachers()" 
-    (edit)="edit($event)" 
-    (remove)="deleteTeacher($event)">
-  </app-table>
-
-  <div class="modal fade common-modal-class" id="teacherModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg">
-        <div class="modal-header bg-dark text-white border-0">
-          <h5 class="modal-title d-flex align-items-center gap-2">
-            <i class="bi {{ editTeacher() ? 'bi-pencil-square' : 'bi-plus-circle' }}"></i>
-            {{ editTeacher() ? 'Modify' : 'Register' }} Teacher
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<div class="min-vh-100 py-5" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+  
+  <div class="container">
+    <div class="card border-0 mb-5 overflow-hidden shadow-sm" 
+         style="border-radius: 24px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5);">
+      <div class="card-body p-4 d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="fw-bold text-dark mb-1 tracking-tight" style="letter-spacing: -1px;">Faculty Management</h2>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0" style="font-size: 0.85rem;">
+              <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Dashboard</a></li>
+              <li class="breadcrumb-item active fw-medium text-primary">Teachers</li>
+            </ol>
+          </nav>
         </div>
-        <div class="modal-body p-4">
-          <app-forms 
-            [editData]="editTeacher()" 
-            (added)="addTeacher($event)" 
-            (updated)="updateTeacher($event)">
-          </app-forms>
-        </div>
+
+        <button class="btn btn-dark rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2 shadow" 
+                style="transition: all 0.3s ease; background: linear-gradient(45deg, #1e293b, #334155); border: none;"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.15)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';"
+                data-bs-toggle="modal" 
+                data-bs-target="#teacherModal" 
+                (click)="editTeacher = null">
+          <i class="bi bi-plus-lg fs-5"></i> 
+          <span>Add New Teacher</span>
+        </button>
       </div>
-    </div> 
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius: 24px; background: #ffffff;">
+      <div class="card-body p-0">
+        <div class="p-4 border-bottom border-light">
+           <h5 class="fw-bold text-secondary mb-0">Teacher Directory</h5>
+        </div>
+        <app-table 
+          [data]="teachers$" 
+          (edit)="edit($event)" 
+          (remove)="deleteTeacher($event)">
+        </app-table>
+      </div>
+    </div>
+
+    <div class="modal fade" id="teacherModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 30px; overflow: hidden;">
+          
+          <div class="modal-header border-0 pt-4 px-4 pb-0" style="background: #fff;">
+            <div class="d-flex align-items-center gap-3">
+              <div class="bg-primary bg-opacity-10 rounded-4 p-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                <i class="bi {{ editTeacher ? 'bi-pencil-square text-primary' : 'bi-person-plus text-primary' }} fs-3"></i>
+              </div>
+              <div>
+                <h5 class="modal-title fw-bold text-dark mb-0">
+                  {{ editTeacher ? 'Modify Record' : 'Create Profile' }}
+                </h5>
+                <p class="text-muted small mb-0">Teacher Information Management</p>
+              </div>
+            </div>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body p-4">
+            <div class="bg-light p-3 rounded-4 border border-white shadow-sm">
+              <app-forms 
+                [editData]="editTeacher" 
+                (added)="addTeacher($event)" 
+                (updated)="updateTeacher($event)">
+              </app-forms>
+            </div>
+          </div>
+          
+        </div>
+      </div> 
+    </div>
   </div>
 </div>

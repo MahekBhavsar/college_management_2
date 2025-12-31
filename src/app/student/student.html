@@ -14,9 +14,11 @@
       </button>
     </div>
   </div>
-
-  <app-table [data]="students" (edit)="edit($event)" (remove)="deleteStudent($event)"></app-table>
-
+<app-table 
+  [data]="students$" 
+  (edit)="edit($event)" 
+  (remove)="deleteStudent($event)">
+</app-table>
   <div class="modal fade common-modal-class" id="studentModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered"> <div class="modal-content border-0 shadow-lg">
         <div class="modal-header bg-light border-bottom-0 py-3">

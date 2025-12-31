@@ -3,88 +3,84 @@ import { StudentService } from '../apis/student-service';
 import { Forms } from '../shared/forms/forms';
 import { Table } from '../shared/table/table';
 import { StudentData } from '../interface/interface';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-student',
   standalone: true,
   imports: [Forms, Table],
   templateUrl: './student.html',
-  styleUrl:'./student.css'
+  styleUrls: ['./student.css']
 })
 export class Student implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private studentService = inject(StudentService);
 
-  // Strictly typed array
-  students: StudentData[] = [];
+  students$!: Observable<StudentData[]>; // Observable stream for async pipe
   editStudent: StudentData | null = null;
 
   ngOnInit() {
     this.loadStudents();
   }
 
-  // 1. Load Data
   loadStudents() {
-    this.studentService.getAll().subscribe((res: StudentData[]) => {
-      console.log('Fetching all students:', res);
-      this.students = res;
-      this.cdr.detectChanges();
-    });
+    this.students$ = this.studentService.getAll();
+    this.cdr.detectChanges();
   }
 
-  // 2. Add Student (Instant UI Update)
-  addStudent(data: StudentData) {
-    console.log('Form data to add:', data);
-    this.studentService.add(data).subscribe((res: StudentData) => {
-      console.log('Student added to server:', res);
-      alert('Student Added Successfully');
-      
-      // 🔥 REASSIGN: Create new array so Table refreshes
-      this.students = [...this.students, res]; 
-      this.cdr.detectChanges();
-    });
-  }
+  // Use async/await for mutations
+  // async addStudent(data: StudentData) {
+  //   try {
+  //     await firstValueFrom(this.studentService.add(data));
+  //     alert('Student Added Successfully');
+  //     this.loadStudents(); // refresh the Observable
+  //   } catch (error) {
+  //     console.error('Error adding student:', error);
+  //   }
+  // }
+  async addStudent(data: StudentData) {
+  try {
+    // 1. Get current students to calculate next ID
+    const currentStudents = await firstValueFrom(this.students$);
+    
+    // 2. Find the highest ID and add 1
+    const maxId = currentStudents.length > 0 
+      ? Math.max(...currentStudents.map(s => Number(s.id))) 
+      : 0;
+    
+    data.id = (maxId + 1).toString(); // Assign new auto-incremented ID
 
-  // 3. Update Student (Instant UI Update)
-  updateStudent(data: StudentData) {
-    console.log('Data to update:', data);
-    const id = data.id;
-    this.studentService.update(data).subscribe(() => {
-      console.log('Update successful on server for ID:', id);
+    // 3. Send to service
+    await firstValueFrom(this.studentService.add(data));
+    alert('Student Added Successfully');
+    this.loadStudents();
+  } catch (error) {
+    console.error('Error adding student:', error);
+  }
+}
+
+  async updateStudent(data: StudentData) {
+    try {
+      await firstValueFrom(this.studentService.update(data));
       alert('Student Updated Successfully');
-      
-      const index = this.students.findIndex(s => s.id === id);
-      if (index !== -1) {
-        // Update the item
-        this.students[index] = data; 
-        // 🔥 REASSIGN: Force child table to refresh
-        this.students = [...this.students]; 
-      }
-      
+      this.loadStudents();
       this.editStudent = null;
-      this.cdr.detectChanges();
-    });
-  }
-
-  // 4. Delete Student (Instant UI Update)
-  deleteStudent(id: string) { 
-    console.log('Attempting to delete ID:', id);
-    if (confirm('Are you sure you want to delete?')) {
-      this.studentService.delete(id).subscribe(() => {
-        console.log('Delete successful on server for ID:', id);
-        alert('Student Deleted Successfully');
-
-        // 🔥 REASSIGN: Filter creates a new array without the deleted student
-        this.students = this.students.filter(student => student.id !== id);
-        
-        this.cdr.detectChanges();
-      });
+    } catch (error) {
+      console.error('Error updating student:', error);
     }
   }
 
-  // 5. Setup for Edit Mode
+  async deleteStudent(id: string) {
+    try {
+      await firstValueFrom(this.studentService.delete(id));
+      alert('Student Deleted Successfully');
+      this.loadStudents();
+    } catch (error) {
+      console.error('Error deleting student:', error);
+    }
+  }
+
   edit(data: StudentData) {
-    console.log('Loading data into edit form:', data);
     this.editStudent = { ...data };
   }
 }

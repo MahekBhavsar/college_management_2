@@ -3,52 +3,48 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 @Component({
   selector: 'app-forms',
-   standalone: true,   // ✅ REQUIRED
+  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './forms.html',
-  styleUrl:'./forms.css'
+  styleUrls: ['./forms.css']
 })
 export class Forms implements OnChanges {
   @Input() editData: any = null;
-  @Output() added = new EventEmitter<any>();
-  @Output() updated = new EventEmitter<any>();
+  @Output() added = new EventEmitter<any >();
+  @Output() updated = new EventEmitter<any >();
 
   forms = new FormGroup({
-    // 1. Added Validators.required so ID cannot be empty
-    id: new FormControl(null, Validators.required), 
-    name: new FormControl('', Validators.required),
-    phone: new FormControl(''),
+    id: new FormControl(null), 
+    name: new FormControl(null, Validators.required),
+    phone: new FormControl(null,Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    address: new FormControl(''),
+    address: new FormControl(null,Validators.required),
     gender: new FormControl('male')
   });
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['editData']?.currentValue) {
       this.forms.patchValue(this.editData);
-      // Optional: Disable ID field during edit so user can't change the primary key
-      this.forms.get('id')?.disable(); 
+      this.forms.get('id')?.disable(); // Disable ID when editing
     } else {
       this.forms.reset({ gender: 'male' });
-      this.forms.get('id')?.enable(); 
+      this.forms.get('id')?.enable(); // Enable ID when adding
     }
   }
 
   submit() {
     if (this.forms.valid) {
-      // 2. getRawValue() is essential here to capture the ID if it is disabled
-      const formData = this.forms.getRawValue(); 
+      const formData = this.forms.getRawValue(); // Get all form values including disabled fields
 
-      // 3. Logic check: If editData exists, we are updating. Otherwise, adding.
       if (this.editData) {
-        this.updated.emit(formData);
+        this.updated.emit(formData); // Update existing record
       } else {
-        this.added.emit(formData);
+        this.added.emit(formData); // Add new record
       }
-      
-      this.forms.reset({ gender: 'male' });
+
+      this.forms.reset({ gender: 'male' }); // Reset form
     } else {
-      this.forms.markAllAsTouched();
+      this.forms.markAllAsTouched(); // Highlight validation errors
     }
   }
 }
